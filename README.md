@@ -1,8 +1,53 @@
-# Basic Sample Hardhat Project
+# Sneakerpunk NFT store
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
 
-Try running some of the following tasks:
+
+### Marketplace features :bulb:
+
+- [x] Mint & List Nft.
+- [x] Buy NFT.
+- [x] Sell NFT.
+- [x] Connect with wallet.
+
+
+### Tech stack & packages used 📦
+
+| package                                                             | explain                                                               |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [Next.js](https://nextjs.org/docs/getting-started)                  | framework                                                             |
+| [ipfs-http-client ](https://www.npmjs.com/package/ipfs-http-client) | Http Client to Connect Application with IPFS                          |       
+| [openzeppelin](https://www.npmjs.com/package/@openzeppelin/contracts) | For creating ERC-721 token.                                         |
+| [ether.js](https://docs.ethers.io/v5/)                              | Web3 client.                                                          |
+| [Chai](https://www.npmjs.com/package/chai)                          | javascript testing framework.                                         |
+| [react-toastify](https://www.npmjs.com/package/react-toastify)      | For Notification.                                                     |   
+| [hardhat](https://www.npmjs.com/package/hardhat)                    | Ethereum development environment.                                     | 
+| [Redux](https://www.npmjs.com/package/hardhat)                      | For managing and centralizing application state.                      |   
+
+
+---
+
+- Run hardhat node
+  ```
+  npx hardhat node
+  ```
+- Run test cases
+  ```
+  npx hardhat test
+  ```
+- Deploy contract in local hardhat node
+  ```
+  npx hardhat run scripts/deploy.js --network localhost
+  ```
+- Connect hardhat with metamask
+- Run react frontend
+  ```
+  cd client
+  npm start
+  ```
+
+[ERC-721 token details](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/token/ERC721)
+
+[Ethers.js documentation](https://docs.ethers.io/v5/getting-started/)
 
 ```shell
 npx hardhat accounts
@@ -10,6 +55,6 @@ npx hardhat compile
 npx hardhat clean
 npx hardhat test
 npx hardhat node
-node scripts/sample-script.js
 npx hardhat help
+npx hardhat run scripts/deploy.js --network localhost
 ```

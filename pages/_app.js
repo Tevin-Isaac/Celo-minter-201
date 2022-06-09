@@ -20,7 +20,8 @@ function MyApp({ Component, pageProps }) {
     await loadUnsoldNFT(provider,contracts.marketplace,contracts.nft,dispatch)
   }
 
-  return <><ToastContainer /><Component {...pageProps} /></>
+  return <>
+  <ToastContainer /><Component {...pageProps} /></>
 }
 
 export default wrapper.withRedux(MyApp)

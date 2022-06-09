@@ -34,7 +34,7 @@ const MyOrders = () => {
             </div>
             ))
             // eslint-disable-next-line react/no-unescaped-entities
-            :<h4 className="text-center">You din't owned any NFT yet</h4>
+            :<h4 className="text-center">You don't own any NFT yet</h4>
           }
 
         </div>

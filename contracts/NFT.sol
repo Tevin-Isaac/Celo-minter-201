@@ -12,12 +12,14 @@ contract NFT is  ERC721URIStorage {
 
     constructor() ERC721("Exchange NFT", "EXNFT") {}
 
-    function safeMint(string memory uri,address marketPlaceAddress,address creator) public payable returns(uint) {
-        _tokenIdCounter.increment();
+    function safeMint(string memory uri,address marketPlaceAddress , address creator) public payable returns(uint) {
+        require(marketPlaceAddress != address(0), "Enter a valid address");
+        require(creator != address(0), "Enter a valid creator address");
         uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
         _mint(creator, tokenId);
         _setTokenURI(tokenId, uri);
-        _setApprovalForAll(creator,marketPlaceAddress,true);
+        _approve(marketPlaceAddress, tokenId);
         return tokenId;
     }
 

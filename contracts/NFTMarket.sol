@@ -6,12 +6,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./NFT.sol";
-// [X] Create & List Nft
-// [X] Buy NFT
-// [X] Sell NFT
-// [X] Cancel sell 
 
-contract NFTMarket is ReentrancyGuard{
+
+contract NFTMarket is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _itemId;
     Counters.Counter private _itemsSold;
@@ -61,14 +58,19 @@ contract NFTMarket is ReentrancyGuard{
 
     mapping(uint => _Item) public Items;
 
-    function sellItem(string memory uri,uint256 _price,address _nftContract) payable public nonReentrant{
+    mapping(address => uint) createdPerWallet;
+    mapping(address => uint) ownedPerWallet;
+
+    function sellItem(string memory uri,uint256 _price,address _nftContract) public payable nonReentrant{
       require(_price > 0, "Price must be at least 1 wei");
-      require(msg.value == mintingCost, "Price must be equal to listing price");
-
-      _itemId.increment();
+      require(msg.value == mintingCost, "You need to pay minting price");
+      require(_nftContract != address(0), "Enter a valid marketplace address");
+      require(bytes(uri).length > 0, "Enter a valid uri");
+      
       uint256 itemId = _itemId.current();
-
-      uint256 _tokenId = NFT(_nftContract).safeMint(uri,address(this),msg.sender);
+      _itemId.increment();
+      createdPerWallet[msg.sender]++;
+      uint256 _tokenId = NFT(_nftContract).safeMint(uri,address(this),msg.sender); 
 
       Items[itemId] =  _Item(
           ListingStatus.Active,
@@ -91,19 +93,19 @@ contract NFTMarket is ReentrancyGuard{
 
     }
 
-    function cancelSell(uint256 _tokenId) public {
-       _Item storage listedItem = Items[_tokenId];
+    function cancelSell(uint256 _tokenId) public isValidTokenId(_tokenId) {
+      _Item storage listedItem = Items[_tokenId];
       require(msg.sender == listedItem.owner || msg.sender == listedItem.creator, "Only owner can cancel listing");
 		  require(listedItem.status == ListingStatus.Active, "Listing is not active");
 
       listedItem.status = ListingStatus.Cancelled;
-	   	IERC721(listedItem.nftContract).transferFrom(address(this), msg.sender, listedItem.token);
+	    IERC721(listedItem.nftContract).transferFrom(address(this), msg.sender, listedItem.token);
 
       emit CancelSell(listedItem.token,listedItem.owner);
     }
 
-    function buyItem(uint256 _tokenId) payable public nonReentrant {
-        _Item storage listedItem = Items[_tokenId];
+    function buyItem(uint256 _tokenId) public payable isValidTokenId(_tokenId) nonReentrant {
+      _Item storage listedItem = Items[_tokenId];
 
         require(listedItem.price == msg.value, 'Price must be equal to NFT price');
         
@@ -111,17 +113,20 @@ contract NFTMarket is ReentrancyGuard{
         listedItem.owner = payable(msg.sender);
         listedItem.status = ListingStatus.Sold;
 
-        //Pay owner of the NFT
+        ownedPerWallet[msg.sender]++;
         address payable ownerAddress = listedItem.creator;
         if(listedItem.owner == address(0)){
           ownerAddress = listedItem.owner;
         }
-        ownerAddress.transfer(msg.value);
+        (bool success,) = ownerAddress.call{value: msg.value}("");
+        require(success, "Transfer of payment failed");
         //Tranfer NFT to the new owner
         _itemsSold.increment();
         IERC721(listedItem.nftContract).transferFrom(address(this), msg.sender, listedItem.token);
 
-        payable(owner).transfer(mintingCost);
+        //Pay owner of the NFT
+        (bool sent, ) = payable(owner).call{value: mintingCost}("");
+        require(sent, "Transfer of mintCost failed");
 
         emit Sold(
           listedItem.nftContract,
@@ -134,7 +139,6 @@ contract NFTMarket is ReentrancyGuard{
     }    
 
      // Fetch all unsold items
-
     function fetchMarketItems() public view returns (_Item[] memory) {
       uint itemCount = _itemId.current();
       uint unsoldItemCount = _itemId.current() - _itemsSold.current();
@@ -142,9 +146,8 @@ contract NFTMarket is ReentrancyGuard{
 
       _Item[] memory items = new _Item[](unsoldItemCount);
       for (uint i = 0; i < itemCount; i++) {
-        if (Items[i + 1].owner == address(this)) {
-          uint currentId = i + 1;
-          _Item storage currentItem = Items[currentId];
+        if (Items[i].owner == address(this) && Items[i].status == ListingStatus.Active) {
+          _Item storage currentItem = Items[i];
           items[currentIndex] = currentItem;
           currentIndex += 1;
         }
@@ -153,52 +156,56 @@ contract NFTMarket is ReentrancyGuard{
     }
 
     // Fetch creator NFT's
-    function fetchCreatorItemsListed() public view returns (_Item[] memory) {
+    function fetchCreatorItemsListed() public view hasCreatedItems returns (_Item[] memory) {
       uint totalItemCount = _itemId.current();
-      uint itemCount = 0;
+      uint itemCount = createdPerWallet[msg.sender];
+      _Item[] memory items = new _Item[](itemCount);
       uint currentIndex = 0;
 
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (Items[i + 1].creator == msg.sender) {
-          itemCount += 1;
-        }
-      }
-
-      _Item[] memory items = new _Item[](itemCount);
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (Items[i + 1].creator == msg.sender) {
-          uint currentId = i + 1;
-          _Item storage currentItem = Items[currentId];
+      for(uint i = 0; i < totalItemCount; i++) {
+        if(Items[i].creator == msg.sender){
+          _Item storage currentItem = Items[i];
           items[currentIndex] = currentItem;
           currentIndex += 1;
         }
       }
+
       return items;
     }
 
 
     // Fetch owner NFT's
-    function fetchOwnerItemsListed() public view returns (_Item[] memory) {
+    function fetchOwnerItemsListed() public view hasOwnerItems  returns (_Item[] memory) {
+    
       uint totalItemCount = _itemId.current();
-      uint itemCount = 0;
+      uint itemCount = ownedPerWallet[msg.sender];
       uint currentIndex = 0;
-
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (Items[i + 1].owner == msg.sender) {
-          itemCount += 1;
-        }
-      }
-
       _Item[] memory items = new _Item[](itemCount);
+
       for (uint i = 0; i < totalItemCount; i++) {
-        if (Items[i + 1].owner == msg.sender) {
-          uint currentId = i + 1;
-          _Item storage currentItem = Items[currentId];
+        if(Items[i].owner == msg.sender){
+          _Item storage currentItem = Items[i];
           items[currentIndex] = currentItem;
           currentIndex += 1;
         }
       }
+      
       return items;
+    }
+
+    modifier hasCreatedItems {
+      require(createdPerWallet[msg.sender] > 0, "You have not yet created any items");
+      _;
+    }
+
+    modifier hasOwnerItems {
+      require(ownedPerWallet[msg.sender] > 0, "You currently own no items");
+      _;
+    }
+
+    modifier isValidTokenId(uint _tokenId) {
+    require(_tokenId >= 0, "Enter a valid tokenId");
+    _;
     }
 
 }

@@ -115,7 +115,7 @@ describe("NFT Market", async function () {
       const event = await sellCancel.wait();
 
       expect(event.events.length).to.equal(3);
-      expect(event.events[2].event).to.equal("cancelSell");
+      expect(event.events[2].event).to.equal("CancelSell");
       expect(event.events[2].args.token).to.equal(0);
       expect(event.events[2].args.owner).to.equal(getNft.owner);
     });

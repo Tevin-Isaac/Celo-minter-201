@@ -52,7 +52,7 @@ const Mint = () => {
   const uploadImageToIPFS = async()=> {
 
     const { chainId } = await provider.getNetwork()
-    if(chainId !== process.env.CHAIN_ID){
+    if(chainId != 44787){
       toast.error('Invalid chain Id ! Please use alfajores test network :)', {
         position: "top-right",
         autoClose: 5000,
@@ -62,7 +62,7 @@ const Mint = () => {
         draggable: true,
         progress: undefined,
         });
-      return 
+      return
     }
 
     setLoader(true)
@@ -111,7 +111,7 @@ const Mint = () => {
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       /* after file is uploaded to IPFS, return the URL to use it in the transaction */
       await mintNFT(url)
-      
+
       return url;
     } catch (error) {
       setLoader(false)
@@ -130,7 +130,7 @@ const Mint = () => {
 
   const mintNFT = async(metadata) =>{
     try {
-      
+
       const tx = await nftMarketplaceReducer.sellItem(metadata,etherToWei(price),nftReducer.address,{from:walletAddress,value:etherToWei("0.0001")})
       const receipt = await tx.wait();
       const formattedData =  await formatNFTData(receipt.events[4].args,nftReducer)

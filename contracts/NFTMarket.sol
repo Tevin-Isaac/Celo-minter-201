@@ -12,7 +12,7 @@ contract NFTMarket is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _itemId;
     Counters.Counter private _itemsSold;
-    
+
     address payable owner;
     uint256 public mintingCost = 0.0001 ether;
 
@@ -61,16 +61,18 @@ contract NFTMarket is ReentrancyGuard {
     mapping(address => uint) createdPerWallet;
     mapping(address => uint) ownedPerWallet;
 
-    function sellItem(string memory uri,uint256 _price,address _nftContract) public payable nonReentrant{
+    bool isPaused;
+
+    function sellItem(string memory uri,uint256 _price,address _nftContract) public payable notPaused nonReentrant{
       require(_price > 0, "Price must be at least 1 wei");
       require(msg.value == mintingCost, "You need to pay minting price");
       require(_nftContract != address(0), "Enter a valid marketplace address");
       require(bytes(uri).length > 0, "Enter a valid uri");
-      
+
       uint256 itemId = _itemId.current();
       _itemId.increment();
       createdPerWallet[msg.sender]++;
-      uint256 _tokenId = NFT(_nftContract).safeMint(uri,address(this),msg.sender); 
+      uint256 _tokenId = NFT(_nftContract).safeMint(uri,address(this),msg.sender);
 
       Items[itemId] =  _Item(
           ListingStatus.Active,
@@ -93,7 +95,7 @@ contract NFTMarket is ReentrancyGuard {
 
     }
 
-    function cancelSell(uint256 _tokenId) public isValidTokenId(_tokenId) {
+    function cancelSell(uint256 _tokenId) public isValidTokenId(_tokenId) notPaused {
       _Item storage listedItem = Items[_tokenId];
       require(msg.sender == listedItem.owner || msg.sender == listedItem.creator, "Only owner can cancel listing");
 		  require(listedItem.status == ListingStatus.Active, "Listing is not active");
@@ -104,11 +106,11 @@ contract NFTMarket is ReentrancyGuard {
       emit CancelSell(listedItem.token,listedItem.owner);
     }
 
-    function buyItem(uint256 _tokenId) public payable isValidTokenId(_tokenId) nonReentrant {
+    function buyItem(uint256 _tokenId) public payable isValidTokenId(_tokenId) notPaused nonReentrant {
       _Item storage listedItem = Items[_tokenId];
 
         require(listedItem.price == msg.value, 'Price must be equal to NFT price');
-        
+
         //Update the owner & status
         listedItem.owner = payable(msg.sender);
         listedItem.status = ListingStatus.Sold;
@@ -136,7 +138,7 @@ contract NFTMarket is ReentrancyGuard {
           listedItem.price
         );
 
-    }    
+    }
 
      // Fetch all unsold items
     function fetchMarketItems() public view returns (_Item[] memory) {
@@ -176,7 +178,7 @@ contract NFTMarket is ReentrancyGuard {
 
     // Fetch owner NFT's
     function fetchOwnerItemsListed() public view hasOwnerItems  returns (_Item[] memory) {
-    
+
       uint totalItemCount = _itemId.current();
       uint itemCount = ownedPerWallet[msg.sender];
       uint currentIndex = 0;
@@ -189,9 +191,18 @@ contract NFTMarket is ReentrancyGuard {
           currentIndex += 1;
         }
       }
-      
+
       return items;
     }
+
+    function pause() public onlyOwner {
+      isPaused = true;
+    }
+
+    function unPause() public onlyOwner {
+        isPaused = false;
+    }
+
 
     modifier hasCreatedItems {
       require(createdPerWallet[msg.sender] > 0, "You have not yet created any items");
@@ -207,5 +218,12 @@ contract NFTMarket is ReentrancyGuard {
     require(_tokenId >= 0, "Enter a valid tokenId");
     _;
     }
+
+//     pause all minting and selling actions
+    modifier notPaused() {
+        require(isPaused, "Contract is paused");
+        _;
+    }
+
 
 }

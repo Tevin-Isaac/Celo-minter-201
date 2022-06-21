@@ -1,3 +1,4 @@
+
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
@@ -5,19 +6,20 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./NFT.sol";
 
 
-contract NFTMarket is ReentrancyGuard {
+contract NFTMarket is ReentrancyGuard, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _itemId;
     Counters.Counter private _itemsSold;
 
-    address payable owner;
+    address payable contractOwner;
     uint256 public mintingCost = 0.0001 ether;
 
     constructor(){
-        owner = payable(msg.sender);
+        contractOwner = payable(msg.sender);
     }
 
     enum ListingStatus {
@@ -127,7 +129,7 @@ contract NFTMarket is ReentrancyGuard {
         IERC721(listedItem.nftContract).transferFrom(address(this), msg.sender, listedItem.token);
 
         //Pay owner of the NFT
-        (bool sent, ) = payable(owner).call{value: mintingCost}("");
+        (bool sent, ) = payable(contractOwner).call{value: mintingCost}("");
         require(sent, "Transfer of mintCost failed");
 
         emit Sold(

@@ -42,7 +42,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1655327810134,
+      "lastModificationDate": 1655732644779,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -77,7 +77,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-      "lastModificationDate": 1655327973146,
+      "lastModificationDate": 1655732763527,
       "contentHash": "21b9f3bdb3e60f56ea81361c37420136",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
@@ -120,7 +120,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol": {
-      "lastModificationDate": 1655328030530,
+      "lastModificationDate": 1655732798807,
       "contentHash": "580a443491d9d70eb064b0130fc3cd01",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
       "solcConfig": {
@@ -157,7 +157,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
-      "lastModificationDate": 1655327861426,
+      "lastModificationDate": 1655732688011,
       "contentHash": "74654e3ae5d7f39555055dfe244dab7a",
       "sourceName": "@openzeppelin/contracts/utils/Counters.sol",
       "solcConfig": {
@@ -192,7 +192,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-      "lastModificationDate": 1655327973146,
+      "lastModificationDate": 1655732763527,
       "contentHash": "cd8e72e5859bddd5fd26b2fb5c51c846",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
@@ -229,7 +229,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
-      "lastModificationDate": 1655327973146,
+      "lastModificationDate": 1655732763527,
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
@@ -264,7 +264,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
-      "lastModificationDate": 1655328030530,
+      "lastModificationDate": 1655732798807,
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
@@ -301,7 +301,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/utils/Address.sol": {
-      "lastModificationDate": 1655327861326,
+      "lastModificationDate": 1655732688011,
       "contentHash": "ad714a6368ee7d43cded6bbe8af0b155",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
@@ -336,7 +336,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1655327861418,
+      "lastModificationDate": 1655732688011,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -371,7 +371,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
-      "lastModificationDate": 1655327861442,
+      "lastModificationDate": 1655732688011,
       "contentHash": "9c54c6c065d9e590fdcdd72c451425b9",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
@@ -406,7 +406,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1655327970246,
+      "lastModificationDate": 1655732763443,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -443,7 +443,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1655327970246,
+      "lastModificationDate": 1655732763479,
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
@@ -478,8 +478,8 @@
       ]
     },
     "/home/tevin/mint/contracts/NFTMarket.sol": {
-      "lastModificationDate": 1655300757756,
-      "contentHash": "ffa40691f0a9abe300cbe3e08ebabc45",
+      "lastModificationDate": 1655834706384,
+      "contentHash": "fd9d82541d72641f1aeb650fcd1b7edf",
       "sourceName": "contracts/NFTMarket.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -509,6 +509,7 @@
         "@openzeppelin/contracts/utils/Counters.sol",
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "@openzeppelin/contracts/security/ReentrancyGuard.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
         "./NFT.sol"
       ],
       "versionPragmas": [
@@ -519,7 +520,7 @@
       ]
     },
     "/home/tevin/mint/node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol": {
-      "lastModificationDate": 1655327861294,
+      "lastModificationDate": 1655732688063,
       "contentHash": "92f9448b23a90ea3bb932ee55cc3ccce",
       "sourceName": "@openzeppelin/contracts/security/ReentrancyGuard.sol",
       "solcConfig": {
@@ -551,6 +552,43 @@
       ],
       "artifacts": [
         "ReentrancyGuard"
+      ]
+    },
+    "/home/tevin/mint/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
+      "lastModificationDate": 1655732687983,
+      "contentHash": "8398972af73b4e9e5ff3b31cad86234f",
+      "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Ownable"
       ]
     }
   }

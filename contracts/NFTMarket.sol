@@ -16,7 +16,7 @@ contract NFTMarket is ReentrancyGuard, Ownable {
     Counters.Counter private _itemsSold;
 
     address payable contractOwner;
-    uint256 public mintingCost = 0.0001 ether;
+    uint256 public mintingCost = 0 ether;
 
     constructor(){
         contractOwner = payable(msg.sender);

@@ -13,7 +13,7 @@ const CardComponent = ({nftData}) => {
   const buyMarketplaceNft = (token,price) =>{
 
     const onSuccess = ()=> {
-      toast.success("woo hoo ! you ow this NFT 🎉", {
+      toast.success("woo hoo ! you own this NFT 🎉", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

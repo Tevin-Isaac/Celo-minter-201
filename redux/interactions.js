@@ -49,7 +49,7 @@ export const etherToWei = (n) => {
   export const loadContracts = async(provider,dispatch) =>{
 
     const { chainId } = await provider.getNetwork()
-    if(chainId !== process.env.CHAIN_ID){
+    if(chainId !== 44787){
       return {
         marketplace:null,
         nft:null
@@ -88,7 +88,7 @@ export const etherToWei = (n) => {
   export const loadUnsoldNFT = async(provider,marketplaceContract,nftContract,dispatch)=>{
 
     const { chainId } = await provider.getNetwork()
-    if(chainId !== process.env.CHAIN_ID){
+    if(chainId !== 44787){
       dispatch(actions.unsoldNFTLoaded([]))
       return 
     }
@@ -105,7 +105,7 @@ export const etherToWei = (n) => {
   export const loadMintedNFT = async(provider,marketplaceContract,account,nftContract,dispatch)=>{
 
     const { chainId } = await provider.getNetwork()
-    if(!account || chainId !== process.env.CHAIN_ID){
+    if(!account || chainId !== 44787){
       dispatch(actions.mintedNFTLoaded([]))
       return
     }
@@ -122,7 +122,7 @@ export const etherToWei = (n) => {
   export const loadOwnedNFT = async(provider,marketplaceContract,account,nftContract,dispatch)=>{
     
     const { chainId } = await provider.getNetwork()
-    if(!account || chainId !== process.env.CHAIN_ID){
+    if(!account || chainId !== 44787){
       dispatch(actions.ownedNFTLoaded([]))
       return 
     }

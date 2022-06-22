@@ -478,8 +478,8 @@
       ]
     },
     "/home/tevin/mint/contracts/NFTMarket.sol": {
-      "lastModificationDate": 1655834706384,
-      "contentHash": "fd9d82541d72641f1aeb650fcd1b7edf",
+      "lastModificationDate": 1655913071785,
+      "contentHash": "e1f43163ac0c7b9f212937a8b06635d7",
       "sourceName": "contracts/NFTMarket.sol",
       "solcConfig": {
         "version": "0.8.4",

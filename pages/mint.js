@@ -76,7 +76,7 @@ const Mint = () => {
         draggable: true,
         progress: undefined,
         });
-    };
+    }
 
     try {
       const added = await client.add(file)

@@ -63,9 +63,9 @@ contract NFTMarket is ReentrancyGuard, Ownable {
     mapping(address => uint) createdPerWallet;
     mapping(address => uint) ownedPerWallet;
 
-    bool isPaused;
+   
 
-    function sellItem(string memory uri,uint256 _price,address _nftContract) public payable notPaused nonReentrant{
+    function sellItem(string memory uri,uint256 _price,address _nftContract) public payable nonReentrant{
       require(_price > 0, "Price must be at least 1 wei");
       require(msg.value == mintingCost, "You need to pay minting price");
       require(_nftContract != address(0), "Enter a valid marketplace address");
@@ -97,7 +97,7 @@ contract NFTMarket is ReentrancyGuard, Ownable {
 
     }
 
-    function cancelSell(uint256 _tokenId) public isValidTokenId(_tokenId) notPaused {
+    function cancelSell(uint256 _tokenId) public isValidTokenId(_tokenId)  {
       _Item storage listedItem = Items[_tokenId];
       require(msg.sender == listedItem.owner || msg.sender == listedItem.creator, "Only owner can cancel listing");
 		  require(listedItem.status == ListingStatus.Active, "Listing is not active");
@@ -108,7 +108,7 @@ contract NFTMarket is ReentrancyGuard, Ownable {
       emit CancelSell(listedItem.token,listedItem.owner);
     }
 
-    function buyItem(uint256 _tokenId) public payable isValidTokenId(_tokenId) notPaused nonReentrant {
+    function buyItem(uint256 _tokenId) public payable isValidTokenId(_tokenId) nonReentrant {
       _Item storage listedItem = Items[_tokenId];
 
         require(listedItem.price == msg.value, 'Price must be equal to NFT price');
@@ -197,13 +197,7 @@ contract NFTMarket is ReentrancyGuard, Ownable {
       return items;
     }
 
-    function pause() public onlyOwner {
-      isPaused = true;
-    }
-
-    function unPause() public onlyOwner {
-        isPaused = false;
-    }
+  
 
 
     modifier hasCreatedItems {
@@ -222,10 +216,7 @@ contract NFTMarket is ReentrancyGuard, Ownable {
     }
 
 //     pause all minting and selling actions
-    modifier notPaused() {
-        require(isPaused, "Contract is paused");
-        _;
-    }
+  
 
 
 }

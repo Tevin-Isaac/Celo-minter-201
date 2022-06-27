@@ -1,4 +1,10 @@
 # Sneakerpunk NFT store
+## DEMO VIDEO
+
+https://user-images.githubusercontent.com/81568615/176022936-90c189a5-1750-447a-89e2-ab5136496acd.mp4
+
+
+## PREVIEW
 ![Screenshot from 2022-06-23 15-36-20](https://user-images.githubusercontent.com/81568615/175301654-712d098e-c277-4732-a8c5-93d989324816.png)
 
 

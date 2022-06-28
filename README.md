@@ -3,7 +3,7 @@
 
 https://user-images.githubusercontent.com/81568615/176022936-90c189a5-1750-447a-89e2-ab5136496acd.mp4
 
-## With Metamask Wallet
+##  Metamask Wallet
 
 https://user-images.githubusercontent.com/81568615/176025390-e2a59d71-8772-4b14-8f73-e74e56071352.mp4
 
@@ -74,3 +74,5 @@ npx hardhat run scripts/deploy.js --network localhost
 
 connect your wallet in the .env file
 ```
+To deploy on vercel check out this link
+https://vercel.com/docs/concepts/deployments/overview

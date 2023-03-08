@@ -1,12 +1,28 @@
 import React, { useRef, useState } from "react";
 import { basicAuth } from "../helpers/AuthHelper";
 import { toast } from 'react-toastify';
-import { create } from "ipfs-http-client";
+import { create as ipfsHttpClient } from 'ipfs-http-client';
+
 import { useDispatch, useSelector } from "react-redux";
 import { etherToWei, formatNFTData } from "../redux/interactions";
 import { useRouter } from "next/router";
 import { nftMinted } from "../redux/actions";
-const client = create("https://ipfs.infura.io:5001/api/v0");
+// const client = create("https://ipfs.infura.io:5001/api/v0");
+
+
+const projectId = "2MilTQl1eCZl37SaCSHxlhIDTeE";
+const projectSecret = "5eb75bc6209df7f037aefce1bee43ede";
+const auth = `Basic ${Buffer.from(`${projectId}:${projectSecret}`).toString(
+  'base64',
+)}`;
+const options = {
+  host: 'ipfs.infura.io',
+  protocol: 'https',
+  port: 5001,
+  headers: { authorization: auth },
+};
+const client = ipfsHttpClient(options);
+const dedicatedEndPoint = "https://tevin-nft-marketplace.infura-ipfs.io";
 
 const Mint = () => {
   const router = useRouter()
@@ -80,7 +96,7 @@ const Mint = () => {
 
     try {
       const added = await client.add(file)
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      const url = `${dedicatedEndPoint}/ipfs/${added.path}`;
       await uploadMetadataToIPFS(url)
     } catch (error) {
       setLoader(false)
@@ -108,7 +124,7 @@ const Mint = () => {
     });
     try {
       const added = await client.add(data);
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const url = `${dedicatedEndPoint}/ipfs/${added.path}`;
       /* after file is uploaded to IPFS, return the URL to use it in the transaction */
       await mintNFT(url)
 

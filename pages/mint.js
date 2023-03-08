@@ -10,8 +10,8 @@ import { nftMinted } from "../redux/actions";
 // const client = create("https://ipfs.infura.io:5001/api/v0");
 
 
-const projectId = "2MilTQl1eCZl37SaCSHxlhIDTeE";
-const projectSecret = "5eb75bc6209df7f037aefce1bee43ede";
+const projectId = "2MiwdH5zvJCIwaS1nqkFSfQkAtJ";
+const projectSecret = "aeb84eb59855f3c2d7ef1d8ddc970d6c";
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecret}`).toString(
   'base64',
 )}`;
@@ -22,7 +22,7 @@ const options = {
   headers: { authorization: auth },
 };
 const client = ipfsHttpClient(options);
-const dedicatedEndPoint = "https://tevin-nft-marketplace.infura-ipfs.io";
+const dedicatedEndPoint = "https://celo-minter.infura-ipfs.io";
 
 const Mint = () => {
   const router = useRouter()

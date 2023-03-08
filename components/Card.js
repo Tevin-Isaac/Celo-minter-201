@@ -58,7 +58,7 @@ const CardComponent = ({nftData}) => {
         </div>
         <div className="d-flex flex-column">
           <small>Bid price</small>
-          <p><i className="fab fa-ethereum"></i> {nftData.price}</p>
+          <p><i className="fa-solid fa-c"></i> {nftData.price}</p>
         </div>
         </div>
         
